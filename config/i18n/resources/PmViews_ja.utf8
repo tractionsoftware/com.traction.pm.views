@@ -1,0 +1,24 @@
+plugin_display_name=Proteus PM Views
+plugin_description=プロジェクト管理の [プロジェクト] [マイルストーン] [タスク] のサブタブを独立したタブとして選択できるようにします。また、[予定] タブを追加し、今日の予定、過去の予定、未来の予定、特定の日付範囲の予定を表示できるようにします。
+
+# Views
+viewname_pm_events_default=予定 (既定)
+viewname_pm_events_today=今日の予定
+viewname_pm_events_past=過去の予定
+viewname_pm_events_future=未来の予定
+viewname_pm_events_range=日付範囲の予定
+viewname_userprofile_pm_events_default=予定 (既定)
+viewname_userprofile_pm_events_today=今日の予定
+viewname_userprofile_pm_events_past=過去の予定
+viewname_userprofile_pm_events_future=未来の予定
+viewname_userprofile_pm_events_range=日付範囲の予定
+
+# Configurations (Settings)
+setting_pmevents_subtabs_allprojects_display_name=[すべてのスペース] [予定] タブのサブタブ
+setting_pmevents_subtabs_allprojects_description=[すべてのスペース] の [予定] タブに表示されるサブタブを選択します。
+
+setting_pmevents_subtabs_project_display_name=[スペース] [予定] タブのサブタブ
+setting_pmevents_subtabs_project_description=スペースの [予定] タブに表示されるサブタブを選択します。
+
+setting_pmevents_subtabs_userprofile_display_name=[ユーザー プロフィール] [予定] タブのサブタブ
+setting_pmevents_subtabs_userprofile_description=ユーザーのプロフィール ページの [予定] タブに表示されるサブタブを選択します。

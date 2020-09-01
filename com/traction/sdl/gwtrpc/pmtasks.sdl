@@ -1,0 +1,318 @@
+<!---
+
+      Copyright 1996-2020 Traction Software, Inc.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+
+-->
+
+<!--- PLEASE DO NOT DELETE THIS LINE - make copyright depends on it. -->
+
+<view.error>
+  <shared#view-error mainclassSubtype="multi" />
+<else>
+  <#page>
+</view.error>
+
+<sdl.function name="page">
+  <shared#html-title>
+  <tabs#data>
+  <gwt.rpc.view name="bd">
+    <#bodycolumn>
+    <#sidecolumn>
+  </gwt.rpc.view>
+</sdl.function>
+
+<sdl.function name="bodycolumn">
+
+  <gwt.rpc.view name="BodyColumn" mainclass="<shared#main-class-proj className='view-multi' />" contentclass="gutter">
+
+    <#heading />
+
+    <gwt.rpc.view name="ShowMenu" key="heading" content="__journalrequest.volume__" comment="__journalrequest.commentvolume__"></gwt.rpc.view>
+
+    <gwt.rpc.view name="FilterMenu" key="heading" />
+
+    <!--- #task-posts / -->
+    <#task-table />
+
+    <com.traction.metrics.sdl.metrics#update>
+
+  </gwt.rpc.view><!--- BodyColumn -->
+
+</sdl.function>
+
+<sdl.function name="heading">
+  <gwt.rpc.view name="BodyHeading" key="heading" itemcount="" tags="" fave="true">
+    <gwt.rpc.property.set name="title">
+      <!--- #page-title / -->
+      タスク一覧
+    </gwt.rpc.property.set>
+    <shared#general-pagedesc />
+    <shared#add-to-view-link />
+  </gwt.rpc.view><!--- BodyHeading -->
+</sdl.function>
+
+<sdl.function name="page-title">
+  <switch value="<#pmtasks-cur-subtab />">
+    <case value="today">#{@pmviews#viewname_pm_events_today} <small>(<datetime dateformat="long" />)</small></case>
+    <case value="past">#{@pmviews#viewname_pm_events_past}</case>
+    <case value="future">#{@pmviews#viewname_pm_events_future}</case>
+    <case value="range">#{@pmviews#viewname_pm_events_range} <small></small></case>
+  </switch>
+</sdl.function>
+
+<sdl.function name="task-posts">
+  <gwt.rpc.view name="HTML" region="entries">
+    <shared#search-expression>
+    <div class="chunk">
+      <#task-entries />
+    </div>
+  </gwt.rpc.view><!--- HTML -->
+  <shared#chunkmore>
+</sdl.function>
+
+<sdl.function name="task-entries">
+  <div class="entries">
+    <db.connect>
+      <db.entries supportschunking="true"
+              coltype="fqid"
+              colname="FQID"
+              obeySearchFilter="true"
+              entries.url="__url.urlgen.here__"
+              sql="<#sql-task-entries />">
+        __entry.content__
+      </db.entries>
+    </db.connect>
+  </div>
+</sdl.function>
+
+<sdl.function name="task-table">
+  <gwt.rpc.view name="HTML" region="entries">
+    <shared#search-expression>
+    <div class="entries">
+
+      <var.set name="cols">customentrytype,tractionid,title,completion_status,author_original,assigned,due,estimate</var.set>
+
+      <table id="pm-task-table-with-events" class="table table-striped table-pm table-table-pm-tasks">
+      <#table-header />
+
+
+        <#table-body />
+
+      <#table-footer />
+
+      </table>
+
+
+    </div>
+  </gwt.rpc.view><!--- HTML -->
+  <shared#chunkmore>
+</sdl.function>
+
+<sdl.function name="table-header">
+  <thead>
+    <tr>
+      <foreach list="${cols}">
+        <th class="<string.tolowercase>__foreach.current__</string.tolowercase>">
+          <switch value="__foreach.current__">
+            <case value="customentrytype">Type</case>
+            <case.default>
+              <entry.field name="__foreach.current__">__entry.field.displayname__</entry.field>
+            </case.default>
+          </switch>
+        </th>
+      </foreach>
+    </tr>
+  </thead>
+</sdl.function>
+
+<sdl.function name="table-body">
+  <tbody>
+  <db.connect>
+    <db.entries supportschunking="true"
+            coltype="fqid"
+            colname="FQID"
+            obeySearchFilter="true"
+            entries.url="__url.urlgen.here__"
+            sql="<#sql-task-entries />">
+
+  <tr class="row-__entry.customentrytype__ row-__entry.displaytype__">
+    <foreach list="${cols}">
+      <td class="<string.tolowercase>__foreach.current__</string.tolowercase>">
+        <switch value="__foreach.current__">
+          <case value="customentrytype">__entry.customentrytype__</case>
+          <case.default>
+            <entry.field name="__foreach.current__">__entry.field.content__</entry.field>
+          </case.default>
+        </switch>
+      </td>
+    </foreach>
+  </tr>
+
+  <#child-events />
+
+</db.entries>
+</db.connect>
+</tbody>
+</sdl.function>
+
+
+<sdl.function name="child-events">
+  <var.set name="evCols">customentrytype,tractionid,title,completion_status,author_original,invitees,event_start,event_end</var.set>
+  <var.set name="evFqid">
+    <pmshared#related-entries direction="incoming" verb="schedules" show_none="false" separator="," *yield="__entry.tractionid.fqid__" />
+  </var.set>
+  <console>__entry.tractionid__ __entry.title__ ${evFqid}</console>
+  <var.empty name="evFqid" not>
+    <foreach list="${evFqid}" set="entryFqid">
+      <entry fqid="${entryFqid}">
+        <tr class="row-__entry.customentrytype__ row-__entry.displaytype__">
+          <foreach list="${evCols}" set="col">
+            <td class="${col}">
+              <switch value="${col}">
+                <case value="customentrytype">__entry.customentrytype__</case>
+                <case value="completion_status"></case>
+                <case.default>
+                  <entry.field name="${col}">__entry.field.content__</entry.field>
+                </case.default>
+              </switch>
+            </td>
+          </foreach>
+        </tr>
+      </entry>
+    </foreach>
+  </var.empty>
+</sdl.function>
+
+<sdl.function name="sql-task-entries-back">
+
+  <var.set name="todayStartGMT">
+    <pmshared#today-start-gmt />
+  </var.set>
+  <var.set name="todayEndGMT">
+    <pmshared#today-end-gmt />
+  </var.set>
+
+  <var.set name="range">
+    <switch value="<#pmtasks-cur-subtab />">
+      <case.contains value="today">
+        ((STARTTIME between '${todayStartGMT}' and '${todayEndGMT}') or (ENDTIME between '${todayStartGMT}' and '${todayEndGMT}') or ((STARTTIME < '${todayStartGMT}') and (ENDTIME > '${todayEndGMT}')))
+      </case.contains>
+      <case.contains value="past">
+        (ENDTIME < '${todayStartGMT}')
+      </case.contains>
+      <case.contains value="future">
+        <!--- The start date of an event entry that doesn't have any date is set
+              to be "9999-12-31 23:59:59.999999" and it should not be queried. -->
+        ((STARTTIME > '${todayEndGMT}') and (STARTTIME < '9999-12-31 23:59:59.999'))
+      </case.contains>
+    </switch>
+  </var.set>
+
+  <var.set name="order">
+    <switch value="<#pmtasks-cur-subtab />">
+      <case value="today" value="future" value="range">
+        STARTTIME ASC
+      </case>
+      <case value="past">
+        STARTTIME DESC
+      </case>
+    </switch>
+  </var.set>
+
+  <journalrequest.targetuser>
+    select * from TSI_PM_EV left outer join TSI_PM_INVITEES on TSI_PM_EV.EVID = TSI_PM_INVITEES.EVID where USERID = __journalrequest.targetuser.id__ and ${range} order by ${order}
+  <else>
+    select * from TSI_PM_EV where ${range} <compare.equals "<shared#current-project-id />" "*" not>and PROJID = <shared#current-project-id /></compare.equals> order by ${order}
+  </journalrequest.targetuser>
+
+</sdl.function>
+
+<sdl.function name="sql-task-entries">
+  select * from TSI_PM_TASK inner join TSI_PM_DUE on TSI_PM_TASK.TASKID = TSI_PM_DUE.FQID <!--- where TSI_PM_DUE.DUE < '3000-01-01 00:00:00.0' --> order by TSI_PM_DUE.DUE
+</sdl.function>
+
+<sdl.function name="more">
+  <#more-pm-tasks />
+</sdl.function>
+
+<sdl.function name="more-pm-tasks">
+  <url.urlgen type="normal" keep="tm,tp,ts,stickyparams" drop="tu">
+    <gwt.rpc.view name="HTML" region="entries" mode="1">
+      <variable.local.set name="_entries_output">
+        <#event-entries />
+      </variable.local.set>
+      <shared#chunkrange />
+      <variable.local.value name="_entries_output" />
+    </gwt.rpc.view>
+    <shared#chunkmore-custom />
+  </url.urlgen>
+</sdl.function>
+
+<sdl.function name="pmtasks-cur-subtab">
+  <switch value="<config.view.value name='subtab' />">
+    <case value="default">
+      <compare.equals "<shared#current-project-name />" "*">
+        <foreach list="<config.db.value name='pmevents_subtabs_allprojects' />">
+          <loop.first>__foreach.current__</loop.first>
+        </foreach>
+      <else>
+        <foreach list="<config.project.value name='pmevents_subtabs_project' />">
+          <loop.first>__foreach.current__</loop.first>
+        </foreach>
+      </compare.equals>
+    </case>
+    <case value="userprofile_crm_default">
+      <foreach list="<config.user.value name='pmevents_subtabs_userprofile' />">
+        <loop.first>__foreach.current__</loop.first>
+      </foreach>
+    </case>
+    <case.default>
+      <compare.equals "<config.view.value name='subtab' />" "">
+        Warning! The value of the subtab= property is empty. (See #pmtasks-cur-subtab function)
+      <else>
+        <config.view.value name="subtab" />
+      </compare.equals>
+    </case.default>
+  </switch>
+</sdl.function>
+
+<sdl.function name="sidecolumn">
+
+  <gwt.rpc.view name="SideColumn">
+
+    <shared#addmenu firstOption="event" />
+    <gwt.rpc.view name="Uploads"></gwt.rpc.view>
+
+    <variable.boolean name="show-toc" default="false">
+      <shared#table-of-contents />
+    </variable.boolean>
+    <shared#top-projects />
+
+    <journalrequest.targetuser>
+      <shared#inactive-user />
+    </journalrequest.targetuser>
+    <journalrequest.singleproject>
+      <shared#inactive-project />
+    </journalrequest.singleproject>
+    <watchbox#cat />
+
+    <shared#draft-selector />
+    <shared#view-workinprogress-sidebox-deferred />
+    <shared#mailto />
+    <shared#tips />
+
+  </gwt.rpc.view>
+
+</sdl.function>

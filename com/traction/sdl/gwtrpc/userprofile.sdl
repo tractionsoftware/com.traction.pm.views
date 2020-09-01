@@ -1,0 +1,99 @@
+<!---
+
+      Copyright 1996-2020 Traction Software, Inc.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+
+-->
+
+<!--- PLEASE DO NOT DELETE THIS LINE - make copyright depends on it. -->
+
+<sdl.function name="profile-page">
+  <compare.startswith "<config.view.value name='viewtype' />" "userprofile_pm_events">
+    <#profile-page-pm-events />
+  <else>
+    <##profile-page />
+  </compare.startswith>
+</sdl.function>
+
+<sdl.function name="profile-page-pm-events">
+  <shared#html-title />
+  <tabs#data/>
+  <gwt.rpc.view name="bd">
+    <#bodycolumn-pm-events />
+    <#sidecolumn-pm-events />
+  </gwt.rpc.view><!--- bd -->
+</sdl.function>
+
+<sdl.function name="bodycolumn-pm-events">
+  <gwt.rpc.view name="BodyColumn" mainclass="<shared#main-class-user className='<#body-class />' />" contentclass="gutter">
+
+    <gwt.rpc.view name="BodyHeading" key="heading" itemcount="" tags="" fave="true">
+      <gwt.rpc.property.set name="title" value="<#title-pm-events />" />
+      <shared#general-pagedesc />
+    </gwt.rpc.view><!--- BodyHeading -->
+
+    <gwt.rpc.view name="ShowMenu" key="heading" content="__journalrequest.volume__" comment="__journalrequest.commentvolume__"></gwt.rpc.view>
+
+    <gwt.rpc.view name="FilterMenu" key="heading"/>
+
+    <#page-pm-events />
+
+    <com.traction.metrics.sdl.metrics#update />
+
+  </gwt.rpc.view><!--- BodyColumn -->
+</sdl.function>
+
+<sdl.function name="title-pm-events">
+  <switch value="<pmevents#pmevents-cur-subtab />">
+    <case value="today">#{@pmviews#viewname_userprofile_pm_events_today} <small>(<datetime dateformat="long" />)</small></case>
+    <case value="past">#{@pmviews#viewname_userprofile_pm_events_past}</case>
+    <case value="future">#{@pmviews#viewname_userprofile_pm_events_future}</case>
+    <case value="range">#{@pmviews#viewname_userprofile_pm_events_range} <small></small></case>
+  </switch>
+</sdl.function>
+
+<sdl.function name="sidecolumn-pm-events">
+  <#sidecolumn />
+</sdl.function>
+
+<sdl.function name="page-pm-events">
+  <gwt.rpc.view name="HTML" region="entries">
+    <shared#search-expression />
+    <div class="chunk">
+      <pmevents#event-entries />
+    </div>
+  </gwt.rpc.view><!--- HTML -->
+  <shared#chunkmore />
+</sdl.function>
+
+<sdl.function name="more">
+  <compare.contains "<config.view.value name='viewtype' />" "pm_events">
+    <#more-pm-events />
+  <else>
+    <##more />
+  </compare.contains>
+</sdl.function>
+
+<sdl.function name="more-pm-events">
+  <url.urlgen type="normal" keep="tm,tp,ts,stickyparams" drop="tu">
+    <gwt.rpc.view name="HTML" region="entries" mode="1">
+      <variable.local.set name="_entries_output">
+        <#event-entries />
+      </variable.local.set>
+      <shared#chunkrange />
+      <variable.local.value name="_entries_output" />
+    </gwt.rpc.view>
+    <shared#chunkmore-custom />
+  </url.urlgen>
+</sdl.function>

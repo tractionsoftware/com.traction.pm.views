@@ -1,0 +1,228 @@
+{
+  "config/gwt/views": {
+    "pm_tasks": {
+      "__inherits": "tasks_overview",
+      "tab": "pmtasks",
+      "subtab": ""
+    },
+    "pm_tasks_range": {
+      "__inherits": "tasks_overview",
+      "viewtype": "pm_tasks_range",
+      "viewname": "PM Tasks (Range)",
+      "sdl": "com.traction.sdl.gwtrpc.pmtasks",
+      "tab": "pmtasks",
+      "subtab": "range"
+    },
+    "pm_goals": {
+      "__inherits": "tasks_projects",
+      "tab": "pmgoals",
+      "subtab": ""
+    },
+    "pm_milestones": {
+      "__inherits": "tasks_milestones",
+      "tab": "pmmilestones",
+      "subtab": ""
+    },
+    "pm_events_default": {
+      "__inherits": "posts_everyone",
+      "viewtype": "pm_events_default",
+      "viewname": "#{@pmviews#viewname_pm_events_default}",
+      "sdl": "com.traction.sdl.gwtrpc.pmevents",
+      "tab": "pmevents",
+      "subtab": "default"
+    },
+    "pm_events_today": {
+      "__inherits": "pm_events_default",
+      "viewtype": "pm_events_today",
+      "viewname": "#{@pmviews#viewname_pm_events_today}",
+      "subtab": "today"
+    },
+    "pm_events_past": {
+      "__inherits": "pm_events_default",
+      "viewtype": "pm_events_past",
+      "viewname": "#{@pmviews#viewname_pm_events_past}",
+      "subtab": "past"
+    },
+    "pm_events_future": {
+      "__inherits": "pm_events_default",
+      "viewtype": "pm_events_future",
+      "viewname": "#{@pmviews#viewname_pm_events_future}",
+      "subtab": "future"
+    },
+    "pm_events_range": {
+      "__inherits": "pm_events_default",
+      "viewtype": "pm_events_range",
+      "viewname": "#{@pmviews#viewname_pm_events_range}",
+      "subtab": "range"
+    },
+
+    "userprofile_pm_tasks": {
+      "__inherits": "userprofile_tasks_overview",
+      "tab": "pmtasks",
+      "subtab": ""
+    },
+    "userprofile_pm_goals": {
+      "__inherits": "userprofile_tasks_projects",
+      "tab": "pmgoals",
+      "subtab": ""
+    },
+    "userprofile_pm_events_default": {
+      "__inherits": "userprofile_posts",
+      "viewtype": "userprofile_pm_events_default",
+      "tab": "pmevents",
+      "subtab": "default"
+    },
+    "userprofile_pm_events_today": {
+      "__inherits": "userprofile_pm_events_default",
+      "viewtype": "userprofile_pm_events_today",
+      "tab": "pmevents",
+      "subtab": "today"
+    },
+    "userprofile_pm_events_past": {
+      "__inherits": "userprofile_pm_events_default",
+      "viewtype": "userprofile_pm_events_past",
+      "tab": "pmevents",
+      "subtab": "past"
+    },
+    "userprofile_pm_events_future": {
+      "__inherits": "userprofile_pm_events_default",
+      "viewtype": "userprofile_pm_events_future",
+      "tab": "pmevents",
+      "subtab": "future"
+    },
+    "userprofile_pm_events_range": {
+      "__inherits": "userprofile_pm_events_default",
+      "viewtype": "userprofile_pm_events_range",
+      "tab": "pmevents",
+      "subtab": "range"
+    }
+
+  },
+  "config/tabs/server": {
+    "pmtasks": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Tasks}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#server-tab",
+      "url": "#/pm/tasks"
+    },
+    "pmgoals": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Projects}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#server-tab",
+      "url": "#/pm/goals"
+    },
+    "pmmilestones": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Milestones}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#server-tab",
+      "url": "#/pm/milestones"
+    },
+    "pmevents": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{hovermenu_schedule_link_text}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#server-tab",
+      "url": "#/pm/events/default"
+    }
+  },
+  "config/tabs/project": {
+    "pmtasks": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Tasks}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#project-tab",
+      "url": "#/pm/tasks"
+    },
+    "pmgoals": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Projects}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#project-tab",
+      "url": "#/pm/goals"
+    },
+    "pmmilestones": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Milestones}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#project-tab",
+      "url": "#/pm/milestones"
+    },
+    "pmevents": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{hovermenu_schedule_link_text}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#project-tab",
+      "url": "#/pm/events/default"
+    }
+  },
+  "config/tabs/userprofile": {
+    "pmtasks": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Tasks}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#userprofile-pm-tasks",
+      "url": "#/userprofile/pm/tasks"
+    },
+    "pmgoals": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{sectionlist_Projects}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#userprofile-pm-tasks",
+      "url": "#/userprofile/pm/goals"
+    },
+    "pmevents": {
+      "class": "com.traction.sdk.view.Tab",
+      "display_name": "#{hovermenu_schedule_link_text}",
+      "json_sdl": "com.traction.sdl.gwtrpc.tabs#userprofile-pm-events",
+      "url": "#/userprofile/pm/events/default"
+    }
+  },
+
+  "config/settings/props/journal": {
+    "pmevents_subtabs_allprojects": {
+      "class": "com.traction.settings.Select",
+      "options": "today,past,future,range",
+      "option_today_label": "#{Today}",
+      "option_past_label": "#{gwtrpc_subtab_calendar_past}",
+      "option_future_label": "#{gwtrpc_subtab_calendar_upcoming}",
+      "option_range_label": "#{sectionlist_section_focus_label}",
+      "ordered": "true",
+      "sorted": "true",
+      "selecttype": "multi",
+      "sdleditor": "com.traction.sdl.admin.settings#groupselect",
+      "display_name": "#{@pmviews#setting_pmevents_subtabs_allprojects_display_name}",
+      "description": "#{@pmviews#setting_pmevents_subtabs_allprojects_description}",
+      "usedefault": "true",
+      "default": "today,past,future"
+    }
+  },
+  "config/settings/props/project": {
+    "pmevents_subtabs_project": {
+      "class": "com.traction.settings.Select",
+      "options": "today,past,future,range",
+      "option_today_label": "#{Today}",
+      "option_past_label": "#{gwtrpc_subtab_calendar_past}",
+      "option_future_label": "#{gwtrpc_subtab_calendar_upcoming}",
+      "option_range_label": "#{sectionlist_section_focus_label}",
+      "ordered": "true",
+      "sorted": "true",
+      "selecttype": "multi",
+      "sdleditor": "com.traction.sdl.admin.settings#groupselect",
+      "display_name": "#{@pmviews#setting_pmevents_subtabs_project_display_name}",
+      "description": "#{@pmviews#setting_pmevents_subtabs_project_description}",
+      "usedefault": "true",
+      "default": "today,past,future"
+    }
+  },
+  "config/settings/props/user": {
+    "pmevents_subtabs_userprofile": {
+      "class": "com.traction.settings.Select",
+      "options": "today,past,future,range",
+      "option_today_label": "#{Today}",
+      "option_past_label": "#{gwtrpc_subtab_calendar_past}",
+      "option_future_label": "#{gwtrpc_subtab_calendar_upcoming}",
+      "option_range_label": "#{sectionlist_section_focus_label}",
+      "ordered": "true",
+      "sorted": "true",
+      "selecttype": "multi",
+      "sdleditor": "com.traction.sdl.admin.settings#groupselect",
+      "display_name": "#{@pmviews#setting_pmevents_subtabs_userprofile_display_name}",
+      "description": "#{@pmviews#setting_pmevents_subtabs_userprofile_description}",
+      "usedefault": "true",
+      "default": "today,past,future"
+    }
+  }
+}

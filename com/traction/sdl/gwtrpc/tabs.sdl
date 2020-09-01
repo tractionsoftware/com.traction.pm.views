@@ -1,0 +1,112 @@
+<!---
+
+      Copyright 1996-2020 Traction Software, Inc.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+
+-->
+
+<!--- PLEASE DO NOT DELETE THIS LINE - make copyright depends on it. -->
+
+<sdl.function name="pmevents-subtabs-list">
+  <compare.equals "<crm#get-curproj />" "*">
+    <compare.startswith "<config.view.value name='viewtype' />" "userprofile_">
+      <config.user.value name="pmevents_subtabs_userprofile" />
+    <else>
+      <config.db.value name="pmevents_subtabs_allprojects" />
+    </compare.startswith>
+  <else>
+    <config.project.value name="pmevents_subtabs_project" />
+  </compare.equals>
+</sdl.function>
+
+<sdl.function name="main-pmevents-subtabs">
+  <variable.local.set name="tab" value="#$subtab$" />
+  <join separator=','>
+    <foreach list="<#pmevents-subtabs-list />">
+      <switch value="__foreach.current__">
+        <case value="today">
+          <#tab area="pmevents" name="today" title="#{Today}" link="<#addproj href='#/pm/events/today' />" />
+        </case>
+        <case value="past">
+          <#tab area="pmevents" name="today" title="#{gwtrpc_subtab_calendar_past}" link="<#addproj href='#/pm/events/past' />" />
+        </case>
+        <case value="future">
+          <#tab area="pmevents" name="today" title="#{gwtrpc_subtab_calendar_upcoming}" link="<#addproj href='#/pm/events/future' />" />
+        </case>
+        <case value="range">
+          <#tab area="pmevents" name="range" title="#{sectionlist_section_focus_label}" link="<#addproj href='#/pm/events/range' />" />
+        </case>
+      </switch>
+    </foreach>
+  </join>
+</sdl.function>
+
+<sdl.function name="userprofile-pmevents-subtabs">
+  <variable.local.set name="tab" value="#$subtab$" />
+  <join separator=','>
+    <foreach list="<#pmevents-subtabs-list />">
+      <switch value="__foreach.current__">
+        <case value="today">
+          <#tab area="pmevents" name="today" title="#{Today}" link="<#adduser href='#/userprofile/pm/events/today' />" />
+        </case>
+        <case value="past">
+          <#tab area="pmevents" name="today" title="#{gwtrpc_subtab_calendar_past}" link="<#adduser href='#/userprofile/pm/events/past' />" />
+        </case>
+        <case value="future">
+          <#tab area="pmevents" name="today" title="#{gwtrpc_subtab_calendar_upcoming}" link="<#adduser href='#/userprofile/pm/events/future' />" />
+        </case>
+        <case value="range">
+          <#tab area="pmevents" name="range" title="#{sectionlist_section_focus_label}" link="<#adduser href='#/userprofile/pm/events/range' />" />
+        </case>
+      </switch>
+    </foreach>
+  </join>
+</sdl.function>
+
+<sdl.function name="main-pmtasks-subtabs">
+  <variable.local.set name="tab" value="#$subtab$" />
+  <join separator=','>
+    <foreach list="range">
+      <switch value="__foreach.current__">
+        <case value="range">
+          <#tab area="pmtasks" name="range" title="Range" link="<#addproj href='#/pm/tasks/range' />" />
+        </case>
+      </switch>
+    </foreach>
+  </join>
+</sdl.function>
+
+<sdl.function name="userprofile-pm-tasks">
+  <user.namedaccount>
+    <pm.features.allowed>
+       <#userprofile-tab />
+    </pm.features.allowed>
+  </user.namedaccount>
+</sdl.function>
+
+<sdl.function name="userprofile-pm-goals">
+  <user.namedaccount>
+    <pm.features.allowed>
+       <#userprofile-tab />
+    </pm.features.allowed>
+  </user.namedaccount>
+</sdl.function>
+
+<sdl.function name="userprofile-pm-events">
+  <user.namedaccount>
+    <pm.features.allowed>
+       <#userprofile-tab />
+    </pm.features.allowed>
+  </user.namedaccount>
+</sdl.function>
